@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react';
+import { Route,Routes } from 'react-router-dom';
+import Student from "./Component/Student"
+import Home from './Component/Home';
+import Contact from "./Component/Contact"
+import Navbar from './Component/Navbar';
+import DataContext from './Component/DataContext';
+import Add from "./Component/Add";
+import Edit from "./Component/Edit"
 
-function App() {
+import "./App.css";
+function App(){
+  const [data,setData]=useState([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path='/' element={<Navbar/>}></Route>
+        <Route path='/home' element={<Home/>}></Route>
+        <Route path='/add' element={
+        <DataContext.Provider  value={{entries:data,updateFunction:setData}}>
+          
+          <Add/>
+        </DataContext.Provider>
+       }></Route>
+        <Route path='/student' element={
+          <DataContext.Provider value={{entries:data,updateFunction:setData}}>
+            <Student/>
+          </DataContext.Provider>
+        
+        }></Route>
+        <Route path='/edit' element={
+          <DataContext.Provider value={{entries : data, updateFunction : setData}}>
+            <Edit/>
+          </DataContext.Provider>
+        }></Route>
+        <Route path='/contact' element={<Contact/>}></Route>
+      </Routes>
     </div>
   );
 }
-
 export default App;
